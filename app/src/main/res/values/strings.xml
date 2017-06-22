@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">ZYZXProject</string>
+    <!--首页-->
+    <string name="main_bar_home">首页</string>
+    <string name="main_bar_map">事务</string>
+    <string name="main_bar_center">资讯</string>
+    <string name="main_bar_find">安全</string>
+    <string name="main_bar_user">我的</string>
+
+    <!--首页-->
+    <string name="main_bar_hunt">寻宝</string>
+    <string name="main_bar_subscribe">订阅</string>
+    <string name="main_bar_trade">交易</string>
+    <string name="main_bar_collect">征集</string>
+    <string name="main_bar_account">账户</string>
+</resources>
