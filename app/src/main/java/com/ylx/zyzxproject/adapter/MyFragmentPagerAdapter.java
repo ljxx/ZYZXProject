@@ -1,4 +1,4 @@
-package com.ylx.zyzxproject;
+package com.ylx.zyzxproject.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

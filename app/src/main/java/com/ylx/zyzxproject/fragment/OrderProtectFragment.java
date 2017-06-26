@@ -1,4 +1,4 @@
-package com.ylx.zyzxproject;
+package com.ylx.zyzxproject.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.ylx.zyzxproject.R;
 import com.ylx.zyzxproject.mainfragment.AffairFragment;
 import com.ylx.zyzxproject.mainfragment.HomeFragment;
 import com.ylx.zyzxproject.mainfragment.InformationFragment;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class OrderAllFragment extends Fragment implements OnClickListener {
+public class OrderProtectFragment extends Fragment implements OnClickListener {
 	private static final String TAG = "OrderAllFragment";
 	private ArrayList<Fragment> list;
 	private TextView barText;
@@ -32,7 +33,7 @@ public class OrderAllFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_order_all, null);
+		mView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_order_protect, null);
 		mFragmentManager = getChildFragmentManager();
 		/**
 		 * 初始化数据
@@ -166,4 +167,5 @@ public class OrderAllFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 
 	}
+
 }
