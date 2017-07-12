@@ -1,10 +1,12 @@
 package com.ylx.zyzxproject.mainfragment;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.ylx.zyzxproject.R;
+import com.ylx.zyzxproject.activity.ZxingActivity;
 import com.ylx.zyzxproject.bean.BannerBean;
 import com.ylx.zyzxproject.http.RetrofitService;
 
@@ -17,7 +19,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends BaseFragment {
 
-    private TextView mRequestBtn;
+    private TextView mRequestBtn,mZxingBtn;
     private RetrofitService rs;
 
     @Override
@@ -28,6 +30,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView() {
         mRequestBtn = (TextView) mView.findViewById(R.id.request_data);
+        mZxingBtn = (TextView) mView.findViewById(R.id.zxing_btn);
         rs = new RetrofitService();
     }
 
@@ -50,6 +53,13 @@ public class HomeFragment extends BaseFragment {
 
                     }
                 });
+            }
+        });
+
+        mZxingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ZxingActivity.class));
             }
         });
     }
