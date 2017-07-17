@@ -1,10 +1,7 @@
 package com.ylx.zyzxproject.http;
 
 import com.ylx.zyzxproject.api.ApiService;
-import com.ylx.zyzxproject.bean.BannerBean;
-
-import java.util.List;
-import java.util.Map;
+import com.ylx.zyzxproject.bean.ResourceBean;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -19,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * <p/>
  * 版 本：1.0
  * <p/>
- * 创建日期：2017/7/12  上午11:07
+ * 创建日期：2017/7/17  下午3:39
  * <p/>
  * 描 述：
  * <p/>
@@ -27,15 +24,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * <p/>
  * ========================================
  */
-public class RetrofitService {
-    private static final String baseUrl = "http://192.168.16.105:8080/";
+public class RetrofitResourceService {
+
+    private static final String BASE_URL = "http://192.168.0.92:8087/";
+
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-
-    public Call<List<BannerBean>> getBanner(Map<String, String> mHeaders){
-        return retrofit.create(ApiService.class).getBannerData(mHeaders);
+    public Call<ResourceBean> getResource(){
+        return retrofit.create(ApiService.class).getResource();
     }
+
 }

@@ -8,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ylx.zyzxproject.MyAppcation;
+
 public abstract class BaseFragment extends Fragment {
 
     protected View mView;
     protected Activity mContext;
+    protected MyAppcation app;
 
     @Nullable
     @Override

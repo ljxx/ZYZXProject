@@ -3,12 +3,15 @@ package com.ylx.zyzxproject.mainfragment;
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.ylx.zyzxproject.MyAppcation;
 import com.ylx.zyzxproject.R;
 import com.ylx.zyzxproject.activity.ZxingActivity;
 import com.ylx.zyzxproject.bean.BannerBean;
 import com.ylx.zyzxproject.http.RetrofitService;
+import com.ylx.zyzxproject.util.UrlHelper;
 
 import java.util.List;
 
@@ -39,12 +42,15 @@ public class HomeFragment extends BaseFragment {
         mRequestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<List<BannerBean>> bbList = rs.getBanner();
+                MyAppcation appcation = (MyAppcation) getActivity().getApplication();
+                UrlHelper urlHelper = new UrlHelper(appcation, UrlHelper.BANNER_URL, "GET");
+                Call<List<BannerBean>> bbList = rs.getBanner(urlHelper.getHttpHeaderMap());
                 bbList.enqueue(new Callback<List<BannerBean>>() {
                     @Override
                     public void onResponse(Call<List<BannerBean>> call, Response<List<BannerBean>> response) {
                         List<BannerBean> lbb = response.body();
                         Gson gson = new Gson();
+                        Toast.makeText(getActivity(), gson.toJson(lbb), Toast.LENGTH_LONG).show();
                         HttpLoggingInterceptor.Logger.DEFAULT.log(gson.toJson(lbb));
                     }
 
