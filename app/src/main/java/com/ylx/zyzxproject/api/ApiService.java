@@ -11,6 +11,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
+import retrofit2.http.QueryMap;
 
 /**
  * ========================================
@@ -48,7 +49,12 @@ public interface ApiService {
 
     /**
      * 获取搜索接口数据
+     *
+     * @GET()中一定要有数据，不能为空 用. 占位
+     * http://192.168.0.59:8282/search/?order=price&category=1026&orderBy=asc&specialId=11130&page=1
+     * http://192.168.0.59:8282/search/?page=1&perPage=10&stage=2&order=collection,popularity&orderBy=desc,desc&collection=1026
+     *
      */
-    @GET()
-    Call<SearchBean> getSearchData();
+    @GET(".")
+    Call<SearchBean> getSearchData(@QueryMap Map<String, String> map);
 }

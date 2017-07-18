@@ -5,6 +5,7 @@ import android.util.Log;
 import com.ylx.zyzxproject.api.ApiService;
 import com.ylx.zyzxproject.bean.BannerBean;
 import com.ylx.zyzxproject.bean.ResourceBean;
+import com.ylx.zyzxproject.bean.SearchBean;
 
 import java.util.List;
 import java.util.Map;
@@ -38,8 +39,9 @@ public class RetrofitService {
 
     public RetrofitService(){}
     public RetrofitService(String rootUrl){
-        this.mRootUrl = rootUrl;
+        this.mRootUrl = rootUrl + "/";
         retrofit = new Retrofit.Builder()
+
                 .baseUrl(mRootUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(getOkHttpClicent())
@@ -81,5 +83,9 @@ public class RetrofitService {
      */
     public Call<List<BannerBean>> getBanner(Map<String, String> mHeaders){
         return retrofit.create(ApiService.class).getBannerData(mHeaders);
+    }
+
+    public Call<SearchBean> getSearch(Map<String, String> map){
+        return retrofit.create(ApiService.class).getSearchData(map);
     }
 }
