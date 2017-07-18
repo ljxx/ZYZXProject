@@ -46,6 +46,7 @@ public class HttpResource {
 
         ResourceBean.UserServiceBean usb = mBean.getUser_service();
         resourceMap.put("mAuth",usb.getAuth());
+        resourceMap.put("mAuth",usb.getAuth());
         resourceMap.put("mRegister",usb.getRegister());
         resourceMap.put("mUser",usb.getUser());
         resourceMap.put("mUserNickName",usb.getUser_nickname());

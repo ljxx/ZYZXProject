@@ -2,17 +2,24 @@ package com.ylx.zyzxproject.api;
 
 import com.ylx.zyzxproject.bean.AccountBean;
 import com.ylx.zyzxproject.bean.BannerBean;
+import com.ylx.zyzxproject.bean.LoginBean;
 import com.ylx.zyzxproject.bean.QueryAccountMarKBean;
 import com.ylx.zyzxproject.bean.ResourceBean;
 import com.ylx.zyzxproject.bean.SearchBean;
+import com.ylx.zyzxproject.bean.SendMessageBean;
+import com.ylx.zyzxproject.bean.ValidateRegisterBean;
 import com.ylx.zyzxproject.util.UrlHelper;
 
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 /**
@@ -38,7 +45,7 @@ public interface ApiService {
      * 获取Resource文件数据
      * @return
      */
-    @GET("resource_dev.json")
+    @GET("ft1_issue_index.json")
     Call<ResourceBean> getResource();
 
     /**
@@ -71,4 +78,27 @@ public interface ApiService {
      */
     @GET(UrlHelper.ACCOUNT_STATISTICS)
     Call<AccountBean> getAccountData(@HeaderMap Map<String, String> mHeaders);
+
+    /**
+     * 用户信息登录
+     */
+    @FormUrlEncoded
+    @POST(".")
+    Call<LoginBean> login(@HeaderMap Map<String ,String> mHeaders, @Field("username") String userName, @Field("password") String password);
+
+    /**
+     * 发送验证码
+     *
+     * http://116.236.187.5:13005/user/captcha/18638583601
+     */
+    @POST(UrlHelper.SEND_CAPTCHA + "{phoneNo}")
+    Call<SendMessageBean> sendMessage(@HeaderMap Map<String, String> mHeaders, @Path("phoneNo") String phone);
+
+    /**
+     * 验证用户名是否注册
+     */
+    @FormUrlEncoded
+    @POST(UrlHelper.VALIDATE_REGISTER)
+    Call<ValidateRegisterBean> validateRegister(@HeaderMap Map<String, String> mHeaders, @Field("nickname") String nickName);
+
 }

@@ -22,11 +22,13 @@ import android.app.Application;
 public class MyAppcation extends Application {
 
     public static MyAppcation singleInstance;
-    public static final String RESOURCE_URL = "http://192.168.16.105:8080";
+    public static final String RESOURCE_URL = "http://ft1.resource.zhaoonline.com";
 
-    public String userId = "8039936";
+    public String userId = "";
     public final String APP_ID = "fKhnk3UwbjhLP5NuFNQm5W";
     public final String APP_KEY = "9dbe75e0-d10a-55a5-b232-ecd60a9f60be";
+    public static String appId = "fKhnk3UwbjhLP5NuFNQm5W";
+    public static String appKey = "9dbe75e0-d10a-55a5-b232-ecd60a9f60be";
 
     @Override
     public void onCreate() {

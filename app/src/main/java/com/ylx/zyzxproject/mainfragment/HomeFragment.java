@@ -1,7 +1,9 @@
 package com.ylx.zyzxproject.mainfragment;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,23 +13,29 @@ import com.ylx.zyzxproject.ResponseResultActivity;
 import com.ylx.zyzxproject.activity.ZxingActivity;
 import com.ylx.zyzxproject.bean.AccountBean;
 import com.ylx.zyzxproject.bean.BannerBean;
+import com.ylx.zyzxproject.bean.LoginBean;
 import com.ylx.zyzxproject.bean.QueryAccountMarKBean;
 import com.ylx.zyzxproject.bean.SearchBean;
+import com.ylx.zyzxproject.bean.SendMessageBean;
+import com.ylx.zyzxproject.bean.ValidateRegisterBean;
 import com.ylx.zyzxproject.http.HttpResource;
 import com.ylx.zyzxproject.http.RetrofitService;
 import com.ylx.zyzxproject.util.UrlHelper;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends BaseFragment {
 
-    private TextView mRequestBtn,mZxingBtn,mResonseSearchBtn, mResponseAccountBtn, mResponseNumBtn;
+    private TextView mRequestLoginBtn, mRequestBtn,mZxingBtn,mResonseSearchBtn, mResponseAccountBtn, mResponseNumBtn, mSendMessageBtn, mValidateBtn;
+    private EditText mNickNameEt;
 
     @Override
     protected int inflateView() {
@@ -36,15 +44,32 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        mRequestLoginBtn = (TextView) mView.findViewById(R.id.request_login);
         mRequestBtn = (TextView) mView.findViewById(R.id.request_data);
         mZxingBtn = (TextView) mView.findViewById(R.id.zxing_btn);
         mResonseSearchBtn = (TextView) mView.findViewById(R.id.response_search_data);
         mResponseAccountBtn = (TextView) mView.findViewById(R.id.response_account_data);
         mResponseNumBtn = (TextView) mView.findViewById(R.id.response_num_data);
+        mSendMessageBtn = (TextView) mView.findViewById(R.id.send_message);
+        mNickNameEt = (EditText) mView.findViewById(R.id.nickname_et);
+        mValidateBtn = (TextView) mView.findViewById(R.id.validate_btn);
     }
 
     @Override
     protected void initListen() {
+
+        /**
+         * 登录
+         */
+        mRequestLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userId = "8039936";
+                String password = "123456";
+                login(userId, password);
+            }
+        });
+
         /**
          * 获取Banner图数据
          */
@@ -85,10 +110,138 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
+        /**
+         * 发送验证码
+         */
+        mSendMessageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessageData();
+            }
+        });
+
+        /**
+         * 验证码用户名是否被注册
+         */
+        mValidateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vallidateNickName();
+            }
+        });
+
         mZxingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), ZxingActivity.class));
+            }
+        });
+    }
+
+    /**
+     * 验证用户名是否被注册
+     */
+    private void vallidateNickName() {
+        String mNickName = mNickNameEt.getText().toString().trim();
+        if(TextUtils.isEmpty(mNickName)){
+            return;
+        }
+        HttpLoggingInterceptor.Logger.DEFAULT.log("===nickName====="+ mNickName);
+        String mKey = "mRegister";
+        String baseUrl = HttpResource.getResource(mKey);
+        RetrofitService rs = new RetrofitService(baseUrl);
+        UrlHelper uh = new UrlHelper(app, mKey, UrlHelper.VALIDATE_REGISTER, "POST");
+        Call<ValidateRegisterBean> vrb = rs.validateRegister(uh.getHttpHeaderMap(), mNickName);
+        vrb.enqueue(new Callback<ValidateRegisterBean>() {
+            @Override
+            public void onResponse(Call<ValidateRegisterBean> call, Response<ValidateRegisterBean> response) {
+                if(response.isSuccessful()){
+                    ValidateRegisterBean vrb = response.body();
+                    ResponseResultActivity.jumpResponseResultActivity(getActivity(), "验证用户通过，允许注册：" + new Gson().toJson(vrb));
+                } else {
+                    try {
+                        Toast.makeText(getActivity(), "验证有异常：" + response.errorBody().string(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ValidateRegisterBean> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+    /**
+     * 发送验证码
+     */
+    private void sendMessageData() {
+        String phone = "1234567890";
+        String mKey = "mUser";
+        String baseUrl = HttpResource.getResource(mKey);
+        final RetrofitService rs = new RetrofitService(baseUrl);
+        UrlHelper uh = new UrlHelper(app, mKey, UrlHelper.SEND_CAPTCHA + phone, "POST");
+        Call<SendMessageBean> sb = rs.sendMessageBeanCall(uh.getHttpHeaderMap(), phone);
+        sb.enqueue(new Callback<SendMessageBean>() {
+            @Override
+            public void onResponse(Call<SendMessageBean> call, Response<SendMessageBean> response) {
+                if(response.isSuccessful()){
+                    SendMessageBean sb = response.body();
+                    ResponseResultActivity.jumpResponseResultActivity(getActivity(), "发送验证码成功：" + new Gson().toJson(sb));
+                } else {
+                    try {
+                        Toast.makeText(getActivity(), response.errorBody().string(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SendMessageBean> call, Throwable t) {
+
+            }
+        });
+    }
+
+    /**
+     * 登录
+     * @param userId
+     * @param password
+     */
+    private void login(String userId, String password) {
+        String mKey = "mAuth";
+        String baseUrl = HttpResource.getResource(mKey);
+        RetrofitService rs = new RetrofitService(baseUrl);
+        UrlHelper uh = new UrlHelper(app, mKey, "", "POST");
+        Call<LoginBean> lb = rs.login(uh.getHttpHeaderMap(), userId, password);
+        lb.enqueue(new Callback<LoginBean>() {
+            @Override
+            public void onResponse(Call<LoginBean> call, Response<LoginBean> response) {
+
+                try {
+                    int code = response.code();
+                    if(response.isSuccessful()){
+                        LoginBean lb = response.body();
+                        if(lb != null){
+                            ResponseResultActivity.jumpResponseResultActivity(getActivity(), "登录成功信息：" + new Gson().toJson(lb));
+                        }
+                    } else {
+                        String mErrorData = response.errorBody().string();
+                        Toast.makeText(getActivity(), "登录失败：" + mErrorData, Toast.LENGTH_LONG).show();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginBean> call, Throwable t) {
+                Toast.makeText(getActivity(), "登录失败：" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
