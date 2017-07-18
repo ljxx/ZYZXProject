@@ -1,5 +1,7 @@
 package com.ylx.zyzxproject.http;
 
+import android.util.Log;
+
 import com.ylx.zyzxproject.api.ApiService;
 import com.ylx.zyzxproject.bean.BannerBean;
 import com.ylx.zyzxproject.bean.ResourceBean;
@@ -7,6 +9,8 @@ import com.ylx.zyzxproject.bean.ResourceBean;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -38,8 +42,29 @@ public class RetrofitService {
         retrofit = new Retrofit.Builder()
                 .baseUrl(mRootUrl)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(getOkHttpClicent())
                 .build();
     }
+
+    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+        @Override
+        public void log(String message) {
+            //打印retrofit日志
+            Log.i("RetrofitLog","retrofitBack = "+message);
+        }
+    });
+
+
+    private OkHttpClient getOkHttpClicent(){
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build();
+        return okHttpClient;
+    }
+
+
+
 
     /**
      * 获取resource文件

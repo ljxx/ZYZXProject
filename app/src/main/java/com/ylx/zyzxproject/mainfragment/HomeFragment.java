@@ -16,7 +16,6 @@ import com.ylx.zyzxproject.util.UrlHelper;
 
 import java.util.List;
 
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,7 +68,6 @@ public class HomeFragment extends BaseFragment {
                 Gson gson = new Gson();
                 String mResponseData = "获取Banner图数据：" + gson.toJson(lbb);
                 ResponseResultActivity.jumpResponseResultActivity(getActivity(),mResponseData);
-                HttpLoggingInterceptor.Logger.DEFAULT.log(gson.toJson(lbb));
             }
 
             @Override
