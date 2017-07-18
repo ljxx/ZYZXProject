@@ -3,7 +3,9 @@ package com.ylx.zyzxproject.http;
 import android.util.Log;
 
 import com.ylx.zyzxproject.api.ApiService;
+import com.ylx.zyzxproject.bean.AccountBean;
 import com.ylx.zyzxproject.bean.BannerBean;
+import com.ylx.zyzxproject.bean.QueryAccountMarKBean;
 import com.ylx.zyzxproject.bean.ResourceBean;
 import com.ylx.zyzxproject.bean.SearchBean;
 
@@ -56,7 +58,6 @@ public class RetrofitService {
         }
     });
 
-
     private OkHttpClient getOkHttpClicent(){
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -64,9 +65,6 @@ public class RetrofitService {
                 .build();
         return okHttpClient;
     }
-
-
-
 
     /**
      * 获取resource文件
@@ -85,7 +83,28 @@ public class RetrofitService {
         return retrofit.create(ApiService.class).getBannerData(mHeaders);
     }
 
+    /**
+     * 获取搜索数据，传递多个参数&&&&
+     * @param map
+     * @return
+     */
     public Call<SearchBean> getSearch(Map<String, String> map){
         return retrofit.create(ApiService.class).getSearchData(map);
+    }
+
+    /**
+     * 获取账户角标数据
+     * @param mHeaders
+     * @return
+     */
+    public Call<QueryAccountMarKBean> getQueryAccountMark(Map<String, String> mHeaders){
+        return retrofit.create(ApiService.class).getQueryAccountMarKData(mHeaders);
+    }
+
+    /**
+     * 获取账户信息
+     */
+    public Call<AccountBean> getAccount(Map<String, String> mHeaders){
+        return retrofit.create(ApiService.class).getAccountData(mHeaders);
     }
 }

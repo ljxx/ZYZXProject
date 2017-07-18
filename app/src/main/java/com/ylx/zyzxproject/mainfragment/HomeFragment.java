@@ -9,7 +9,9 @@ import com.google.gson.Gson;
 import com.ylx.zyzxproject.R;
 import com.ylx.zyzxproject.ResponseResultActivity;
 import com.ylx.zyzxproject.activity.ZxingActivity;
+import com.ylx.zyzxproject.bean.AccountBean;
 import com.ylx.zyzxproject.bean.BannerBean;
+import com.ylx.zyzxproject.bean.QueryAccountMarKBean;
 import com.ylx.zyzxproject.bean.SearchBean;
 import com.ylx.zyzxproject.http.HttpResource;
 import com.ylx.zyzxproject.http.RetrofitService;
@@ -25,7 +27,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends BaseFragment {
 
-    private TextView mRequestBtn,mZxingBtn,mResonseSearchBtn;
+    private TextView mRequestBtn,mZxingBtn,mResonseSearchBtn, mResponseAccountBtn, mResponseNumBtn;
 
     @Override
     protected int inflateView() {
@@ -37,6 +39,8 @@ public class HomeFragment extends BaseFragment {
         mRequestBtn = (TextView) mView.findViewById(R.id.request_data);
         mZxingBtn = (TextView) mView.findViewById(R.id.zxing_btn);
         mResonseSearchBtn = (TextView) mView.findViewById(R.id.response_search_data);
+        mResponseAccountBtn = (TextView) mView.findViewById(R.id.response_account_data);
+        mResponseNumBtn = (TextView) mView.findViewById(R.id.response_num_data);
     }
 
     @Override
@@ -61,12 +65,83 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
+        /**
+         * 账户角标数据
+         */
+        mResponseNumBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getAccountNumData();
+            }
+        });
+
+        /**
+         * 获取账户信息数据
+         */
+        mResponseAccountBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getAccountData();
+            }
+        });
+
         mZxingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), ZxingActivity.class));
             }
         });
+    }
+
+    /**
+     * 获取用户账户信息
+     */
+    private void getAccountData(){
+        String mKey = "user";
+        String baseUrl = HttpResource.getResource(mKey);
+        RetrofitService rs = new RetrofitService(baseUrl);
+        UrlHelper uh = new UrlHelper(app, mKey, UrlHelper.ACCOUNT_STATISTICS, "GET");
+        Call<AccountBean> ab = rs.getAccount(uh.getHttpHeaderMap());
+        ab.enqueue(new Callback<AccountBean>() {
+            @Override
+            public void onResponse(Call<AccountBean> call, Response<AccountBean> response) {
+                AccountBean ab = response.body();
+                if(ab != null){
+                    ResponseResultActivity.jumpResponseResultActivity(getActivity(),"获得用户账户信息数据：" + new Gson().toJson(ab));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AccountBean> call, Throwable t) {
+                Toast.makeText(getActivity(), "请求失败：" + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    /**
+     * 获取用户账户角标数据
+     */
+    private void getAccountNumData() {
+        String mKey = "user";
+        String baseUrl = HttpResource.getResource(mKey);
+        RetrofitService rs = new RetrofitService(baseUrl);
+        UrlHelper uh = new UrlHelper(app, mKey, UrlHelper.QUERYACCOUNTMARK, "GET");
+        Call<QueryAccountMarKBean> sb = rs.getQueryAccountMark(uh.getHttpHeaderMap());
+        sb.enqueue(new Callback<QueryAccountMarKBean>() {
+            @Override
+            public void onResponse(Call<QueryAccountMarKBean> call, Response<QueryAccountMarKBean> response) {
+                QueryAccountMarKBean qm = response.body();
+                if(qm != null){
+                    ResponseResultActivity.jumpResponseResultActivity(getActivity(),"获得账户角标数据：" + new Gson().toJson(qm));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QueryAccountMarKBean> call, Throwable t) {
+                Toast.makeText(getActivity(), "请求失败：" + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     /**
@@ -112,7 +187,7 @@ public class HomeFragment extends BaseFragment {
     private void getBannerData(){
         String baseUrl = HttpResource.getResource("root");
         RetrofitService rs = new RetrofitService(baseUrl);
-        UrlHelper urlHelper = new UrlHelper(app, UrlHelper.BANNER_URL, "GET");
+        UrlHelper urlHelper = new UrlHelper(app,"root", UrlHelper.BANNER_URL, "GET");
         Call<List<BannerBean>> bbList = rs.getBanner(urlHelper.getHttpHeaderMap());
         bbList.enqueue(new Callback<List<BannerBean>>() {
             @Override

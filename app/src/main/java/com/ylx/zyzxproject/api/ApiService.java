@@ -1,6 +1,8 @@
 package com.ylx.zyzxproject.api;
 
+import com.ylx.zyzxproject.bean.AccountBean;
 import com.ylx.zyzxproject.bean.BannerBean;
+import com.ylx.zyzxproject.bean.QueryAccountMarKBean;
 import com.ylx.zyzxproject.bean.ResourceBean;
 import com.ylx.zyzxproject.bean.SearchBean;
 import com.ylx.zyzxproject.util.UrlHelper;
@@ -57,4 +59,16 @@ public interface ApiService {
      */
     @GET(".")
     Call<SearchBean> getSearchData(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取账户角标数据
+     */
+    @GET(UrlHelper.QUERYACCOUNTMARK)
+    Call<QueryAccountMarKBean> getQueryAccountMarKData(@HeaderMap Map<String, String > mHeaders);
+
+    /**
+     * 获取账户信息
+     */
+    @GET(UrlHelper.ACCOUNT_STATISTICS)
+    Call<AccountBean> getAccountData(@HeaderMap Map<String, String> mHeaders);
 }

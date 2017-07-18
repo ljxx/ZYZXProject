@@ -26,6 +26,26 @@
         android:gravity="center"/>
 
     <TextView
+        android:id="@+id/response_num_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="@dimen/px10"
+        android:text="获取账户角标数据"
+        android:padding="@dimen/px10"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/response_account_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="@dimen/px10"
+        android:text="获取账户信息数据"
+        android:padding="@dimen/px10"
+        android:gravity="center"/>
+
+    <TextView
         android:id="@+id/zxing_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

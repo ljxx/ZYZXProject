@@ -38,6 +38,8 @@ import it.sauronsoftware.base64.Base64;
 public class UrlHelper {
 
     public static final String BANNER_URL = "pub/@focus";
+    public static final String QUERYACCOUNTMARK = "queryAccountMarK";
+    public static final String ACCOUNT_STATISTICS = "@statistics";
 
     public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
     public static final String HTTP_HEADER_ZHAO_DEVICEID = "X-Zhao-DeviceId";
@@ -55,8 +57,8 @@ public class UrlHelper {
     private String url;
     private String method;
 
-    public UrlHelper(MyAppcation app, String pathUrl, String method) {
-//        this.mark = mark;
+    public UrlHelper(MyAppcation app, String mark, String pathUrl, String method) {
+        this.mark = mark;
         this.url = pathUrl;
         this.method = method;
         this.app = app;
@@ -146,13 +148,16 @@ public class UrlHelper {
         }
     }
 
+    private String appid = "m0daKz4Kz3twmeMABwf"; //变动的--登录后返回的
+    private String appkey = "469fe0c1-90d8-4ecd-91b4-ba63a6940f67"; //变动的--登录后返回的
+
     /**
      *
      * @return
      */
     public String getAuthori() {
-        return "ZHAO" + " " + app.APP_ID + ":"
-                + getBaseAndHma(app.APP_KEY, getStringToSign());
+        return "ZHAO" + " " + appid + ":"
+                + getBaseAndHma(appkey, getStringToSign());
     }
 
     /**
