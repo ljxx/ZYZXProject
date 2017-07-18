@@ -30,7 +30,7 @@ import retrofit2.http.HeaderMap;
  */
 public interface ApiService {
 
-    @GET("ft1_issue_index.json")
+    @GET("resource_dev.json")
     Call<ResourceBean> getResource();
 
 

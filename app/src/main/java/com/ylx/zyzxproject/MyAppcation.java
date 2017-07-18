@@ -22,6 +22,7 @@ import android.app.Application;
 public class MyAppcation extends Application {
 
     public static MyAppcation singleInstance;
+    public static final String RESOURCE_URL = "http://192.168.16.105:8080/";
 
     public String userId = "8039936";
     public final String APP_ID = "fKhnk3UwbjhLP5NuFNQm5W";

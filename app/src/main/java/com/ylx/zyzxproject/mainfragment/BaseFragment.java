@@ -21,6 +21,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(inflateView(),null);
         mContext = getActivity();
+        app = (MyAppcation) mContext.getApplication();
         initView();
         initListen();
         return mView;

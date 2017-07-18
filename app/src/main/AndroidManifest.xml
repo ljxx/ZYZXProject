@@ -3,18 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ylx.zyzxproject">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-sdk tools:overrideLibrary="cn.bingoogolapple.photopicker,cn.bingoogolapple.androidcommon.adapter" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:allowBackup="true"
         android:name=".MyAppcation"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -30,7 +29,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.ZxingActivity" />
         <activity android:name=".activity.TestGeneratectivity" />
-        <activity android:name=".activity.TestScanActivity"></activity>
+        <activity android:name=".activity.TestScanActivity" />
+        <activity android:name=".ResponseResultActivity"></activity>
     </application>
 
 </manifest>

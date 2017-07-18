@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.ylx.zyzxproject.bean.ResourceBean;
 import com.ylx.zyzxproject.http.HttpResource;
-import com.ylx.zyzxproject.http.RetrofitResourceService;
+import com.ylx.zyzxproject.http.RetrofitService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,12 +17,12 @@ import retrofit2.Response;
 public class SplashActivity extends AppCompatActivity {
 
     private Button btn_jump;
-    private RetrofitResourceService mRetrofitService;
+    private RetrofitService mRetrofitService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRetrofitService = new RetrofitResourceService();
+        mRetrofitService = new RetrofitService(MyAppcation.RESOURCE_URL);
         setContentView(R.layout.activity_splash);
         btn_jump = (Button) findViewById(R.id.btn_jump);
 

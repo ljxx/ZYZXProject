@@ -2,6 +2,7 @@ package com.ylx.zyzxproject.http;
 
 import com.ylx.zyzxproject.api.ApiService;
 import com.ylx.zyzxproject.bean.BannerBean;
+import com.ylx.zyzxproject.bean.ResourceBean;
 
 import java.util.List;
 import java.util.Map;
@@ -28,13 +29,31 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * ========================================
  */
 public class RetrofitService {
-    private static final String baseUrl = "http://192.168.16.105:8080/";
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
+    private String mRootUrl;
+    Retrofit retrofit;
 
+    public RetrofitService(){}
+    public RetrofitService(String rootUrl){
+        this.mRootUrl = rootUrl;
+        retrofit = new Retrofit.Builder()
+                .baseUrl(mRootUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
 
+    /**
+     * 获取resource文件
+     * @return
+     */
+    public Call<ResourceBean> getResource(){
+        return retrofit.create(ApiService.class).getResource();
+    }
+
+    /**
+     * 获取banner图
+     * @param mHeaders
+     * @return
+     */
     public Call<List<BannerBean>> getBanner(Map<String, String> mHeaders){
         return retrofit.create(ApiService.class).getBannerData(mHeaders);
     }

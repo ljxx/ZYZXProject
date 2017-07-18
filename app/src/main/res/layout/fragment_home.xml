@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:layout_marginTop="@dimen/px10"
-        android:text="获取网络数据"
+        android:text="获取Banner图数据"
         android:padding="@dimen/px10"
         android:gravity="center"/>
 
