@@ -6,24 +6,18 @@ import com.ylx.zyzxproject.api.ApiService;
 import com.ylx.zyzxproject.bean.AccountBean;
 import com.ylx.zyzxproject.bean.BannerBean;
 import com.ylx.zyzxproject.bean.LoginBean;
+import com.ylx.zyzxproject.bean.LoginPostParame;
 import com.ylx.zyzxproject.bean.QueryAccountMarKBean;
 import com.ylx.zyzxproject.bean.ResourceBean;
 import com.ylx.zyzxproject.bean.SearchBean;
 import com.ylx.zyzxproject.bean.SendMessageBean;
-import com.ylx.zyzxproject.bean.ValidateRegisterBean;
 
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Map;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -69,43 +63,9 @@ public class RetrofitService {
     });
 
     private OkHttpClient getOkHttpClicent(){
-        X509TrustManager xtm = new X509TrustManager() {
-            @Override
-            public void checkClientTrusted(X509Certificate[] chain, String authType) {
-            }
-
-            @Override
-            public void checkServerTrusted(X509Certificate[] chain, String authType) {
-            }
-
-            @Override
-            public X509Certificate[] getAcceptedIssuers() {
-                X509Certificate[] x509Certificates = new X509Certificate[0];
-                return x509Certificates;
-            }
-        };
-
-        SSLContext sslContext = null;
-        try {
-            sslContext = SSLContext.getInstance("SSL");
-
-            sslContext.init(null, new TrustManager[]{xtm}, new SecureRandom());
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
-//                .hostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER).
-//                        sslSocketFactory(sslContext.getSocketFactory())
                 .build();
         return okHttpClient;
     }
@@ -155,8 +115,8 @@ public class RetrofitService {
     /**
      * 登录
      */
-    public Call<LoginBean> login(Map<String, String> mHeaders, String userName, String password){
-        return retrofit.create(ApiService.class).login(mHeaders, userName, password);
+    public Call<LoginBean> login(Map<String, String> mHeaders, LoginPostParame postParame){
+        return retrofit.create(ApiService.class).login(mHeaders, postParame);
     }
 
     /**
@@ -169,7 +129,15 @@ public class RetrofitService {
     /**
      * 验证用户名是否注册
      */
-    public Call<ValidateRegisterBean> validateRegister(Map<String, String> mHeaders, String nickName){
-        return retrofit.create(ApiService.class).validateRegister(mHeaders, nickName);
+    public Call<ResponseBody> validateRegister(Map<String, String> mHeaders, String nickName){
+        RequestBody body=RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),nickName);
+        return retrofit.create(ApiService.class).validateRegister(mHeaders, body);
+    }
+
+    /**
+     *登录
+     */
+    public Call<ResponseBody> outLogin(Map<String, String> mHeaders, String userId){
+        return retrofit.create(ApiService.class).outLogin(mHeaders, userId);
     }
 }

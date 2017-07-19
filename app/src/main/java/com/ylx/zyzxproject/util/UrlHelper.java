@@ -17,6 +17,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import it.sauronsoftware.base64.Base64;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * ========================================
@@ -155,8 +156,9 @@ public class UrlHelper {
      * @return
      */
     public String getAuthori() {
-        return "ZHAO" + " " + app.appId + ":"
-                + getBaseAndHma(app.appKey, getStringToSign());
+        HttpLoggingInterceptor.Logger.DEFAULT.log(MyAppcation.appId + "===" + MyAppcation.appKey + "==="+MyAppcation.userId);
+        return "ZHAO" + " " + MyAppcation.appId + ":"
+                + getBaseAndHma(MyAppcation.appKey, getStringToSign());
     }
 
     /**
@@ -167,14 +169,6 @@ public class UrlHelper {
         String id = Secure.getString(app.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         return id;
-    }
-
-    /**
-     * 获取登录用户userId
-     * @return
-     */
-    public String getUserId() {
-        return app.userId;
     }
 
     /**
@@ -190,7 +184,7 @@ public class UrlHelper {
         map.put(HTTP_HEADER_AUTHORIZATION, getAuthori());
         map.put(HTTP_HEADER_ZHAO_DEVICEID, getDeviceId());
         map.put(HTTP_HEADER_ZHAO_APPID, app.APP_ID);
-        map.put(HTTP_HEADER_ZHAO_USERID, app.userId);
+        map.put(HTTP_HEADER_ZHAO_USERID, MyAppcation.userId);
         map.put(HTTP_HEADER_CONTENT_TYPE, HTTP_CONTENT_TYPE_VALUE);
         map.put(HTTP_HEADER_ZHAO_OSINFO, getOsInfo());
         map.put(HTTP_HEADER_CHARSET, HTTP_CHARSET_VALUE);

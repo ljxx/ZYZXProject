@@ -3,23 +3,26 @@ package com.ylx.zyzxproject.api;
 import com.ylx.zyzxproject.bean.AccountBean;
 import com.ylx.zyzxproject.bean.BannerBean;
 import com.ylx.zyzxproject.bean.LoginBean;
+import com.ylx.zyzxproject.bean.LoginPostParame;
 import com.ylx.zyzxproject.bean.QueryAccountMarKBean;
 import com.ylx.zyzxproject.bean.ResourceBean;
 import com.ylx.zyzxproject.bean.SearchBean;
 import com.ylx.zyzxproject.bean.SendMessageBean;
-import com.ylx.zyzxproject.bean.ValidateRegisterBean;
 import com.ylx.zyzxproject.util.UrlHelper;
 
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**
@@ -82,9 +85,8 @@ public interface ApiService {
     /**
      * 用户信息登录
      */
-    @FormUrlEncoded
-    @POST(".")
-    Call<LoginBean> login(@HeaderMap Map<String ,String> mHeaders, @Field("username") String userName, @Field("password") String password);
+    @POST("auth")
+    Call<LoginBean> login(@HeaderMap Map<String ,String> mHeaders, @Body LoginPostParame postParame);
 
     /**
      * 发送验证码
@@ -97,8 +99,13 @@ public interface ApiService {
     /**
      * 验证用户名是否注册
      */
-    @FormUrlEncoded
     @POST(UrlHelper.VALIDATE_REGISTER)
-    Call<ValidateRegisterBean> validateRegister(@HeaderMap Map<String, String> mHeaders, @Field("nickname") String nickName);
+    Call<ResponseBody> validateRegister(@HeaderMap Map<String, String> mHeaders, @Body RequestBody nickName);
+
+    /**
+     * 退出登录
+     */
+    @DELETE("auth")
+    Call<ResponseBody> outLogin(@HeaderMap Map<String ,String> mHeaders, @Query("k") String userId);
 
 }

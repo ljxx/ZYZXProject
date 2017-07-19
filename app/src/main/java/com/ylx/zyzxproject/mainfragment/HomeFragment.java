@@ -8,25 +8,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.ylx.zyzxproject.MyAppcation;
 import com.ylx.zyzxproject.R;
 import com.ylx.zyzxproject.ResponseResultActivity;
 import com.ylx.zyzxproject.activity.ZxingActivity;
 import com.ylx.zyzxproject.bean.AccountBean;
 import com.ylx.zyzxproject.bean.BannerBean;
 import com.ylx.zyzxproject.bean.LoginBean;
+import com.ylx.zyzxproject.bean.LoginPostParame;
 import com.ylx.zyzxproject.bean.QueryAccountMarKBean;
 import com.ylx.zyzxproject.bean.SearchBean;
 import com.ylx.zyzxproject.bean.SendMessageBean;
-import com.ylx.zyzxproject.bean.ValidateRegisterBean;
 import com.ylx.zyzxproject.http.HttpResource;
 import com.ylx.zyzxproject.http.RetrofitService;
 import com.ylx.zyzxproject.util.UrlHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +39,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends BaseFragment {
 
-    private TextView mRequestLoginBtn, mRequestBtn,mZxingBtn,mResonseSearchBtn, mResponseAccountBtn, mResponseNumBtn, mSendMessageBtn, mValidateBtn;
+    private TextView mRequestLoginBtn, mRequestBtn,mZxingBtn,mResonseSearchBtn, mResponseAccountBtn, mResponseNumBtn, mSendMessageBtn, mValidateBtn, mOutLogin;
     private EditText mNickNameEt;
 
     @Override
@@ -53,6 +58,7 @@ public class HomeFragment extends BaseFragment {
         mSendMessageBtn = (TextView) mView.findViewById(R.id.send_message);
         mNickNameEt = (EditText) mView.findViewById(R.id.nickname_et);
         mValidateBtn = (TextView) mView.findViewById(R.id.validate_btn);
+        mOutLogin = (TextView) mView.findViewById(R.id.out_login);
     }
 
     @Override
@@ -67,6 +73,16 @@ public class HomeFragment extends BaseFragment {
                 String userId = "8039936";
                 String password = "123456";
                 login(userId, password);
+            }
+        });
+
+        /**
+         * 退出登录
+         */
+        mOutLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                outLogin();
             }
         });
 
@@ -139,6 +155,41 @@ public class HomeFragment extends BaseFragment {
     }
 
     /**
+     * 退出登录
+     */
+    private void outLogin() {
+        String mKey = "mAuth";
+        String baseUrl = HttpResource.getResource(mKey);
+        baseUrl = baseUrl.replace("/auth","");
+        final RetrofitService rs = new RetrofitService(baseUrl);
+        UrlHelper ul = new UrlHelper(app, mKey, "", "DELETE");
+        Call<ResponseBody> outCall = rs.outLogin(ul.getHttpHeaderMap(), MyAppcation.appId);
+        outCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    MyAppcation.appId = app.APP_ID;
+                    MyAppcation.appKey = app.APP_KEY;
+                    MyAppcation.userId = "";
+                    HttpLoggingInterceptor.Logger.DEFAULT.log(MyAppcation.appId + "===" + MyAppcation.appKey + "==="+MyAppcation.userId);
+                    ResponseResultActivity.jumpResponseResultActivity(getActivity(), "退出登录成功");
+                } else {
+                    try {
+                        Toast.makeText(getActivity(), "退出登录失败：" + response.errorBody().string(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getActivity(), "退出登录失败：" + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    /**
      * 验证用户名是否被注册
      */
     private void vallidateNickName() {
@@ -146,18 +197,23 @@ public class HomeFragment extends BaseFragment {
         if(TextUtils.isEmpty(mNickName)){
             return;
         }
+        JSONObject mJson = new JSONObject();
+        try {
+            mJson.put("nickname", mNickName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         HttpLoggingInterceptor.Logger.DEFAULT.log("===nickName====="+ mNickName);
         String mKey = "mRegister";
         String baseUrl = HttpResource.getResource(mKey);
         RetrofitService rs = new RetrofitService(baseUrl);
         UrlHelper uh = new UrlHelper(app, mKey, UrlHelper.VALIDATE_REGISTER, "POST");
-        Call<ValidateRegisterBean> vrb = rs.validateRegister(uh.getHttpHeaderMap(), mNickName);
-        vrb.enqueue(new Callback<ValidateRegisterBean>() {
+        Call<ResponseBody> vrb = rs.validateRegister(uh.getHttpHeaderMap(), mJson.toString());
+        vrb.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ValidateRegisterBean> call, Response<ValidateRegisterBean> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
-                    ValidateRegisterBean vrb = response.body();
-                    ResponseResultActivity.jumpResponseResultActivity(getActivity(), "验证用户通过，允许注册：" + new Gson().toJson(vrb));
+                    ResponseResultActivity.jumpResponseResultActivity(getActivity(), "验证用户通过，允许注册");
                 } else {
                     try {
                         Toast.makeText(getActivity(), "验证有异常：" + response.errorBody().string(), Toast.LENGTH_LONG).show();
@@ -168,12 +224,10 @@ public class HomeFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<ValidateRegisterBean> call, Throwable t) {
-
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getActivity(), "用户名验证失败：" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
-
     }
 
     /**
@@ -203,7 +257,7 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<SendMessageBean> call, Throwable t) {
-
+                Toast.makeText(getActivity(), "验证码发送失败：" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -216,9 +270,14 @@ public class HomeFragment extends BaseFragment {
     private void login(String userId, String password) {
         String mKey = "mAuth";
         String baseUrl = HttpResource.getResource(mKey);
+        baseUrl = baseUrl.replace("/auth", "");
+        HttpLoggingInterceptor.Logger.DEFAULT.log("===/auth===="+baseUrl);
         RetrofitService rs = new RetrofitService(baseUrl);
         UrlHelper uh = new UrlHelper(app, mKey, "", "POST");
-        Call<LoginBean> lb = rs.login(uh.getHttpHeaderMap(), userId, password);
+        LoginPostParame lpp = new LoginPostParame();
+        lpp.setUsername(userId);
+        lpp.setPassword(password);
+        Call<LoginBean> lb = rs.login(uh.getHttpHeaderMap(), lpp);
         lb.enqueue(new Callback<LoginBean>() {
             @Override
             public void onResponse(Call<LoginBean> call, Response<LoginBean> response) {
@@ -228,6 +287,9 @@ public class HomeFragment extends BaseFragment {
                     if(response.isSuccessful()){
                         LoginBean lb = response.body();
                         if(lb != null){
+                            MyAppcation.appId = lb.getId();
+                            MyAppcation.appKey = lb.getKey();
+                            MyAppcation.userId = lb.getUser_id();
                             ResponseResultActivity.jumpResponseResultActivity(getActivity(), "登录成功信息：" + new Gson().toJson(lb));
                         }
                     } else {

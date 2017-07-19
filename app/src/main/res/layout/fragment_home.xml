@@ -16,6 +16,16 @@
         android:gravity="center"/>
 
     <TextView
+        android:id="@+id/out_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="@dimen/px10"
+        android:text="退出登录"
+        android:padding="@dimen/px10"
+        android:gravity="center"/>
+
+    <TextView
         android:id="@+id/request_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

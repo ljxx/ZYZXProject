@@ -23,172 +23,136 @@ public class LoginBean implements Serializable {
 
 
     /**
-     * status : SUCCESS
-     * detail : 请求数据成功
-     * data : {"login":"8039936","display":"扣欧诺11","loginTime":"2017-07-18 16:33:48","openId":"oy6lLs4pgBlU1am8f4K5UP8YjjGI","userId":"8039936","mobile":"18638583609","user":"8039936","isRandomPwd":0,"ticket":"MTEyZmM2NjEtMTM4Yy00YjhlLWFhZTktNzZmN2U2NjM1MmE5","channelId":"WECHAT","key":"fef9d436-6b26-43b2-9dbb-4a819aef37de","id":"K8oQ1cOaB50awSz25Lu","type":0}
+     * login_time : 2017-07-19 10:15:02
+     * display : 扣欧诺11
+     * user_id : 8039936
+     * user : 8039936
+     * channel_id : WECHAT
+     * open_id : oy6lLs4pgBlU1am8f4K5UP8YjjGI
+     * mobile : 18638583609
+     * ticket : MWY5YjY1NjItYzI4ZC00M2IxLWI5MzMtYTdmMTNmMTcyMWRm
+     * is_random_pwd : 0
+     * login : 8039936
+     * key : 49e777ec-082c-458d-ab16-8d78c376bba2
+     * id : IvWTmbPlyOXTEGvvgIe
+     * type : 0
      */
 
-    private String status;
-    private String detail;
-    private DataBean data;
+    private String login_time;
+    private String display;
+    private String user_id;
+    private String user;
+    private String channel_id;
+    private String open_id;
+    private String mobile;
+    private String ticket;
+    private int is_random_pwd;
+    private String login;
+    private String key;
+    private String id;
+    private int type;
 
-    public String getStatus() {
-        return status;
+    public String getLogin_time() {
+        return login_time;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setLogin_time(String login_time) {
+        this.login_time = login_time;
     }
 
-    public String getDetail() {
-        return detail;
+    public String getDisplay() {
+        return display;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public void setDisplay(String display) {
+        this.display = display;
     }
 
-    public DataBean getData() {
-        return data;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setData(DataBean data) {
-        this.data = data;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
-    public static class DataBean {
-        /**
-         * login : 8039936
-         * display : 扣欧诺11
-         * loginTime : 2017-07-18 16:33:48
-         * openId : oy6lLs4pgBlU1am8f4K5UP8YjjGI
-         * userId : 8039936
-         * mobile : 18638583609
-         * user : 8039936
-         * isRandomPwd : 0
-         * ticket : MTEyZmM2NjEtMTM4Yy00YjhlLWFhZTktNzZmN2U2NjM1MmE5
-         * channelId : WECHAT
-         * key : fef9d436-6b26-43b2-9dbb-4a819aef37de
-         * id : K8oQ1cOaB50awSz25Lu
-         * type : 0
-         */
+    public String getUser() {
+        return user;
+    }
 
-        private String login;
-        private String display;
-        private String loginTime;
-        private String openId;
-        private String userId;
-        private String mobile;
-        private String user;
-        private int isRandomPwd;
-        private String ticket;
-        private String channelId;
-        private String key;
-        private String id;
-        private int type;
+    public void setUser(String user) {
+        this.user = user;
+    }
 
-        public String getLogin() {
-            return login;
-        }
+    public String getChannel_id() {
+        return channel_id;
+    }
 
-        public void setLogin(String login) {
-            this.login = login;
-        }
+    public void setChannel_id(String channel_id) {
+        this.channel_id = channel_id;
+    }
 
-        public String getDisplay() {
-            return display;
-        }
+    public String getOpen_id() {
+        return open_id;
+    }
 
-        public void setDisplay(String display) {
-            this.display = display;
-        }
+    public void setOpen_id(String open_id) {
+        this.open_id = open_id;
+    }
 
-        public String getLoginTime() {
-            return loginTime;
-        }
+    public String getMobile() {
+        return mobile;
+    }
 
-        public void setLoginTime(String loginTime) {
-            this.loginTime = loginTime;
-        }
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-        public String getOpenId() {
-            return openId;
-        }
+    public String getTicket() {
+        return ticket;
+    }
 
-        public void setOpenId(String openId) {
-            this.openId = openId;
-        }
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
+    }
 
-        public String getUserId() {
-            return userId;
-        }
+    public int getIs_random_pwd() {
+        return is_random_pwd;
+    }
 
-        public void setUserId(String userId) {
-            this.userId = userId;
-        }
+    public void setIs_random_pwd(int is_random_pwd) {
+        this.is_random_pwd = is_random_pwd;
+    }
 
-        public String getMobile() {
-            return mobile;
-        }
+    public String getLogin() {
+        return login;
+    }
 
-        public void setMobile(String mobile) {
-            this.mobile = mobile;
-        }
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-        public String getUser() {
-            return user;
-        }
+    public String getKey() {
+        return key;
+    }
 
-        public void setUser(String user) {
-            this.user = user;
-        }
+    public void setKey(String key) {
+        this.key = key;
+    }
 
-        public int getIsRandomPwd() {
-            return isRandomPwd;
-        }
+    public String getId() {
+        return id;
+    }
 
-        public void setIsRandomPwd(int isRandomPwd) {
-            this.isRandomPwd = isRandomPwd;
-        }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-        public String getTicket() {
-            return ticket;
-        }
+    public int getType() {
+        return type;
+    }
 
-        public void setTicket(String ticket) {
-            this.ticket = ticket;
-        }
-
-        public String getChannelId() {
-            return channelId;
-        }
-
-        public void setChannelId(String channelId) {
-            this.channelId = channelId;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
+    public void setType(int type) {
+        this.type = type;
     }
 }
