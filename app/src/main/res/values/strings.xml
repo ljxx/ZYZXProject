@@ -8,8 +8,8 @@
     <string name="main_bar_user">我的</string>
 
     <!--首页-->
-    <string name="main_bar_hunt">寻宝</string>
-    <string name="main_bar_subscribe">订阅</string>
+    <string name="main_bar_hunt">Retrofit2</string>
+    <string name="main_bar_subscribe">RxJava2</string>
     <string name="main_bar_trade">交易</string>
     <string name="main_bar_collect">征集</string>
     <string name="main_bar_account">账户</string>
