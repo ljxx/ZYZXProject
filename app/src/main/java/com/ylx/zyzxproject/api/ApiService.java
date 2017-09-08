@@ -51,6 +51,9 @@ public interface ApiService {
     @GET("ft1_issue_index.json")
     Call<ResourceBean> getResource();
 
+    @GET(UrlHelper.REQUEST_SERVER_TIME)
+    Call<ResponseBody> getServerTime();
+
     /**
      * 获取Banner图数据
      * @param mHeaders

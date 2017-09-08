@@ -140,4 +140,11 @@ public class RetrofitService {
     public Call<ResponseBody> outLogin(Map<String, String> mHeaders, String userId){
         return retrofit.create(ApiService.class).outLogin(mHeaders, userId);
     }
+
+    /**
+     * 获取服务器时间
+     */
+    public Call<ResponseBody> getServerTime(){
+        return retrofit.create(ApiService.class).getServerTime();
+    }
 }

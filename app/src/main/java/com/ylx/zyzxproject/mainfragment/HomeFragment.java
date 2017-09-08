@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.ylx.zyzxproject.MyAppcation;
 import com.ylx.zyzxproject.R;
 import com.ylx.zyzxproject.ResponseResultActivity;
+import com.ylx.zyzxproject.activity.TimeActivity;
 import com.ylx.zyzxproject.activity.ZxingActivity;
 import com.ylx.zyzxproject.bean.AccountBean;
 import com.ylx.zyzxproject.bean.BannerBean;
@@ -39,7 +40,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends BaseFragment {
 
-    private TextView mRequestLoginBtn, mRequestBtn,mZxingBtn,mResonseSearchBtn, mResponseAccountBtn, mResponseNumBtn, mSendMessageBtn, mValidateBtn, mOutLogin;
+    private TextView mGetServerTimeBtn, mRequestLoginBtn, mRequestBtn,mZxingBtn,mResonseSearchBtn, mResponseAccountBtn, mResponseNumBtn, mSendMessageBtn, mValidateBtn, mOutLogin;
     private EditText mNickNameEt;
 
     @Override
@@ -49,6 +50,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        mGetServerTimeBtn = (TextView) mView.findViewById(R.id.m_get_server_time_btn);
         mRequestLoginBtn = (TextView) mView.findViewById(R.id.request_login);
         mRequestBtn = (TextView) mView.findViewById(R.id.request_data);
         mZxingBtn = (TextView) mView.findViewById(R.id.zxing_btn);
@@ -63,6 +65,16 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initListen() {
+
+        /**
+         * 获取服务器时间
+         */
+        mGetServerTimeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimeActivity.JumpTimeActivity(getActivity());
+            }
+        });
 
         /**
          * 登录

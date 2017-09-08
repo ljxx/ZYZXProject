@@ -35,6 +35,7 @@ public class HttpResource {
         resourceMap.put("meta", mb.getMeta());
         resourceMap.put("special", mb.getSpecial());
         resourceMap.put("sms", mb.getSms());
+        resourceMap.put("pup", mb.getPub());
         resourceMap.put("search", mb.getSearch());
         resourceMap.put("auth", mb.getAuth());
         resourceMap.put("collection", mb.getCollection());

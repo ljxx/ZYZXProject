@@ -43,6 +43,7 @@ public class UrlHelper {
     public static final String ACCOUNT_STATISTICS = "@statistics";
     public static final String SEND_CAPTCHA = "captcha/";
     public static final String VALIDATE_REGISTER = "registerParam";
+    public static final String REQUEST_SERVER_TIME = "@time";
 
     public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
     public static final String HTTP_HEADER_ZHAO_DEVICEID = "X-Zhao-DeviceId";

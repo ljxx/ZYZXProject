@@ -22,7 +22,8 @@ import android.app.Application;
 public class MyAppcation extends Application {
 
     public static MyAppcation singleInstance;
-    public static final String RESOURCE_URL = "http://ft1.resource.zhaoonline.com";
+//    public static final String RESOURCE_URL = "http://ft1.resource.zhaoonline.com";
+    public static final String RESOURCE_URL = "https://resource.zhaoonline.com/issue_ssl_index.json";
 
     public static String userId = "";
     public final String APP_ID = "fKhnk3UwbjhLP5NuFNQm5W";

@@ -26,11 +26,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.ZxingActivity" />
         <activity android:name=".activity.TestGeneratectivity" />
         <activity android:name=".activity.TestScanActivity" />
-        <activity android:name=".ResponseResultActivity"></activity>
+        <activity android:name=".ResponseResultActivity" />
+        <activity android:name=".activity.TimeActivity"></activity>
     </application>
 
 </manifest>
